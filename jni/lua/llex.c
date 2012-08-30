@@ -198,7 +198,6 @@ static void buffreplace (LexState *ls, char from, char to) {
 }
 
 
-#if 0
 #if !defined(getlocaledecpoint)
 #define getlocaledecpoint()	(localeconv()->decimal_point[0])
 #endif
@@ -212,7 +211,7 @@ static void buffreplace (LexState *ls, char from, char to) {
 */
 static void trydecpoint (LexState *ls, SemInfo *seminfo) {
   char old = ls->decpoint;
-  ls->decpoint = getlocaledecpoint();
+  ls->decpoint = '.';
   buffreplace(ls, old, ls->decpoint);  /* try new decimal separator */
   if (!buff2d(ls->buff, &seminfo->r)) {
     /* format error with correct decimal point: no more options */
@@ -220,7 +219,6 @@ static void trydecpoint (LexState *ls, SemInfo *seminfo) {
     lexerror(ls, "malformed number", TK_NUMBER);
   }
 }
-#endif
 
 
 /* LUA_NUMBER */
@@ -244,10 +242,8 @@ static void read_numeral (LexState *ls, SemInfo *seminfo) {
   }
   save(ls, '\0');
   buffreplace(ls, '.', ls->decpoint);  /* follow locale for decimal point */
-#if 0
   if (!buff2d(ls->buff, &seminfo->r))  /* format error? */
     trydecpoint(ls, seminfo); /* try to update decimal point separator */
-#endif
 }
 
 

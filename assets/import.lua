@@ -32,10 +32,10 @@ local function import_class (classname,packagename)
         _G[classname] = class
         local mt = getmetatable(class)
         mt.__call = call
-        print('imported class '..classname)
+        --print('imported class '..classname)
         return class
     else
-        print('failed importing class '..classname)
+        --print('failed importing class '..classname, class)
     end
 end
 
