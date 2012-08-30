@@ -1,0 +1,19 @@
+#
+# `git ls-files -i --exclude-standard` shows ignored files
+#
+# I don't know what the last line means
+
+.*.swp
+_*.swp
+
+.settings/
+bin/
+gen/
+obj/
+
+cscope.*
+ncscope.*
+
+*.orig
+*.rej
+*~
