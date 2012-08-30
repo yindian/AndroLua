@@ -239,6 +239,8 @@
 ** ===================================================================
 */
 
+#define LUA_COMPAT_ALL
+
 /*
 @@ LUA_COMPAT_ALL controls all compatibility options.
 ** You can define it to get all options, or change specific options

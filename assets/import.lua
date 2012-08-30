@@ -22,8 +22,8 @@ local function call (t,...)
             os.exit(1)
         end
     end
-	getmetatable(obj).__tostring = new_tostring
-	return obj
+    getmetatable(obj).__tostring = new_tostring
+    return obj
 end
 
 local function import_class (classname,packagename)
@@ -32,7 +32,10 @@ local function import_class (classname,packagename)
         _G[classname] = class
         local mt = getmetatable(class)
         mt.__call = call
+        print('imported class '..classname)
         return class
+    else
+        print('failed importing class '..classname)
     end
 end
 
@@ -44,14 +47,14 @@ local function massage_classname (classname)
 end
 
 local globalMT = {
-	__index = function(T,classname)
+    __index = function(T,classname)
             classname = massage_classname(classname)
-			for i,p in ipairs(packages) do
+            for i,p in ipairs(packages) do
                 local class = import_class(classname,p..classname)
                 if class then return class end
-			end
+            end
             print("import cannot find "..classname)
-	end
+    end
 }
 setmetatable(_G, globalMT)
 
@@ -71,16 +74,16 @@ append(packages,'')
 
 function proxy (classname,obj)
     classname = massage_classname(classname)
-	-- if the classname contains dots it's assumed to be fully qualified
-	if classname:find('.',1,true) then
-		return luajava.createProxy(classname,obj)
-	end
-	-- otherwise, it must lie on the package path!
-	for i,p in ipairs(packages) do
-		local ok,res = pcall(luajava.createProxy,p..classname, obj)
-		if ok then return res end
-	end
-	error ("cannot find "..classname)
+    -- if the classname contains dots it's assumed to be fully qualified
+    if classname:find('.',1,true) then
+        return luajava.createProxy(classname,obj)
+    end
+    -- otherwise, it must lie on the package path!
+    for i,p in ipairs(packages) do
+        local ok,res = pcall(luajava.createProxy,p..classname, obj)
+        if ok then return res end
+    end
+    error ("cannot find "..classname)
 end
 
 
@@ -101,12 +104,12 @@ end
 
 function p (o)
     if type(o) == 'userdata' then
-		local mt = getmetatable(o)
-		if not mt.__tostring then
-			return print('java:'..o:toString())
-		end
-	end
-	print(type(o)..':'..tostring(o))
+        local mt = getmetatable(o)
+        if not mt.__tostring then
+            return print('java:'..o:toString())
+        end
+    end
+    print(type(o)..':'..tostring(o))
 end
 
 import 'java.lang.reflect.Array'
