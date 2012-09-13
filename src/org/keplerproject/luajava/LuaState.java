@@ -35,8 +35,7 @@ public class LuaState
 {
   private final static String LUAJAVA_LIB = "luajava";
 
-  final public static Integer LUA_GLOBALSINDEX  = new Integer(-10002);
-  final public static Integer LUA_REGISTRYINDEX = new Integer(-10000);
+  final public static Integer LUA_REGISTRYINDEX = new Integer(-1001000);
 
   final public static Integer LUA_TNONE     = new Integer(-1);
   final public static Integer LUA_TNIL      = new Integer(0);
